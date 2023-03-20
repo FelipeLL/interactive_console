@@ -1,5 +1,6 @@
 require('colors');
 const { inquirerMenu, pauseStep } = require('./helpers/inquirer');
+const Tasks = require('./models/tasks');
 
 const main = async () => {
     let opt = ''
