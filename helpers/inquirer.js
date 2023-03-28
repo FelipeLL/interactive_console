@@ -78,8 +78,81 @@ const readInput = async (message) => {
 	return answer.desc;
 }
 
+const listTasksToDelete = async (tasks = []) => {
+
+	const choices = tasks.map((task, i) => {
+
+		const index = `${i + 1}.`.green;
+
+		return {
+			value: task.id,
+			name: `${index} ${task.desc}`,
+		}
+	});
+
+	choices.unshift({
+		value: '0',
+		name: '0.'.green + ' Cancelar'
+	});
+
+	const menu = [
+		{
+			type: 'list',
+			name: 'id',
+			message: 'Borrar',
+			choices,
+		}
+	]
+
+    const answer = await inquirer.prompt(menu);
+
+	return answer.id;
+}
+
+const confirmDeleteTask = async (message) => {
+	const question = {
+		type: 'confirm',
+		name: 'ok',
+		message,
+	}
+
+	const answer = await inquirer.prompt(question);
+	
+	return answer.ok;
+}
+
+const ListChecklist = async (tasks = []) => {
+
+	const choices = tasks.map((task, i) => {
+
+		const index = `${i + 1}.`.green;
+
+		return {
+			value: task.id,
+			name: `${index} ${task.desc}`,
+			checked: task.completeIn ? true : false,
+		}
+	});
+
+	const checklist = [
+		{
+			type: 'checkbox',
+			name: 'ids',
+			message: 'Selecciones',
+			choices,
+		}
+	]
+
+    const answer = await inquirer.prompt(checklist);
+
+	return answer.ids;
+}
+
 module.exports = {
     inquirerMenu,
     pauseStep,
 	readInput,
+	listTasksToDelete,
+	confirmDeleteTask,
+	ListChecklist,
 }
